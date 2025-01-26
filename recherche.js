@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
             li.innerHTML = `
                 <div>
                     <span class="item-name">${item.name}</span>
-                    (${item.category}) - ${item.location} - 
+                    (${item.category}) - 
+                    <span class="location-${item.location.toLowerCase()}">${item.location}</span> - 
                     Quantité: ${item.quantity}
                     <div class="item-comment" data-comment="${item.comment}">${item.comment || ''}</div>
                 </div>

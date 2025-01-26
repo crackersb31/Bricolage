@@ -101,3 +101,11 @@ body {
   nav a.active-link {
     color: #e74c3c;
   }
+  
+  .location-tournefeuille {
+    color: blue;
+  }
+  
+  .location-beaucens {
+    color: green;
+  }
