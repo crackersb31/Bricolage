@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Inventaire du Matériel</title>
+   <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+   <header>
+       <div class="container">
+           <h1>Gestion du Matériel de Bricolage</h1>
+           <nav>
+               <a href="index.html" class="active-link">Inventaire</a>
+               <a href="ajouter.html">Ajouter un article</a>
+           </nav>
+       </div>
+   </header>
+   
+   <main class="container">
+       <div id="inventaire-image-container">
+           <img src="images/outils.jpg" alt="">
+       </div>
+       <h2>Inventaire</h2>
+      
+       <section id="filters">
+           <div class="filter-group">
+               <h3>Filtrer par Lieu</h3>
+               <div class="button-filter-container" id="location-filter-container">
+                   <button class="filter-button" data-location="">Tous les lieux</button>
+                   <button class="filter-button" data-location="Tournefeuille">Tournefeuille</button>
+                   <button class="filter-button" data-location="Beaucens">Beaucens</button>
+               </div>
+           </div>
+   
+           <div class="filter-group">
+               <h3>Filtrer par Catégorie</h3>
+               <div class="button-filter-container" id="category-filter-container">
+                   <button class="filter-button" data-category="">Toutes les catégories</button>
+               </div>
+           </div>
+       </section>
+   
+       <section id="inventaire">
+           <h3>Liste du Matériel</h3>
+           <ul id="item-list" class="item-list">
+           </ul>
+       </section>
+
+       <section id="edit-item" style="display: none;">
+           <h3>Modifier l'article</h3>
+           <form id="edit-item-form">
+               <input type="hidden" id="editItemId">
+               <input type="text" id="editItemName" required>
+               <select id="editItemCategory" required></select>
+               <select id="editItemLocation" required>
+                   <option value="tournefeuille">Tournefeuille</option>
+                   <option value="beaucens">Beaucens</option>
+               </select>
+               <input type="number" id="editItemQuantity" required>
+               <textarea id="editItemComment"></textarea>
+               <button type="submit">Valider</button>
+               <button type="button" id="cancel-edit-item">Annuler</button>
+           </form>
+       </section>
+   </main>
+   
+   <footer>
+       <div class="container">
+           <p>© 2024 Votre Nom</p>
+       </div>
+   </footer>
+   <script src="script.js"></script>
+</body>
+</html>

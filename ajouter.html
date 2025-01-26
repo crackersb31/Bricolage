@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter/Modifier Matériel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Gestion du Matériel de Bricolage</h1>
+    <nav>
+        <a href="index.html">Inventaire</a>
+        <a href="ajouter.html">Ajouter/Modifier</a>
+    </nav>
+</header>
+<main>
+     <div id="add-image-container"></div>
+    <h2>Ajouter un Article</h2>
+    <section id="add-edit-container">
+        <div id="add-item-section">
+            <form id="add-item-form">
+                <div class="form-group-inline">
+                    <div class="form-group nom">
+                        <label for="itemName">Nom:</label>
+                        <input type="text" id="itemName" required>
+                    </div>
+                    <div class="form-group categorie">
+                        <label for="itemCategory">Catégorie:</label>
+                        <div class="select-container">
+                            <select id="itemCategory" required>
+                                <option value="">Choisir une catégorie</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group-inline">
+                    <div class="form-group lieu">
+                        <label for="itemLocation">Lieu:</label>
+                        <select id="itemLocation" required>
+                            <option value="tournefeuille">Tournefeuille</option>
+                            <option value="beaucens">Beaucens</option>
+                        </select>
+                    </div>
+                    <div class="form-group quantite">
+                        <label for="itemQuantity">Quantité:</label>
+                        <input type="number" id="itemQuantity" min="1" value="1" required>
+                    </div>
+                    <div class="form-group commentaire">
+                        <label for="itemComment">Commentaire:</label>
+                        <textarea id="itemComment"></textarea>
+                    </div>
+                </div>
+                <button type="submit">Ajouter l'article</button>
+            </form>
+        </div>
+    </section>
+
+
+
+    <section id="edit-item" style="display: none;">
+        <h3>Modifier l'article</h3>
+        <form id="edit-item-form">
+            <input type="hidden" id="editItemId">
+            <div class="form-group">
+                 <label for="editItemName">Nom:</label>
+                 <input type="text" id="editItemName" required>
+            </div>
+             <div class="form-group">
+                 <label for="editItemCategory">Catégorie:</label>
+                 <select id="editItemCategory" required>
+                     <option value="">Choisir une catégorie</option>
+                 </select>
+             </div>
+
+             <div class="form-group">
+                  <label for="editItemLocation">Lieu:</label>
+                  <select id="editItemLocation" required>
+                     <option value="tournefeuille">Tournefeuille</option>
+                     <option value="beaucens">Beaucens</option>
+                  </select>
+              </div>
+
+             <div class="form-group">
+                   <label for="editItemQuantity">Quantité:</label>
+                  <input type="number" id="editItemQuantity" min="1" value="1" required>
+             </div>
+            <div class="form-group">
+                <label for="editItemComment">Commentaire:</label>
+                <textarea id="editItemComment"></textarea>
+            </div>
+            <button type="submit">Modifier</button>
+            <button type="button" id="cancel-edit-item">Annuler</button>
+        </form>
+    </section>
+
+    <section id="edit-category" >
+        <h3>Gestion des Catégories</h3>
+        <form id="add-category-form">
+            <div class="form-group-inline-category">
+                <div class="form-group" id="input-container-category">
+                   <input type="text" id="categoryName" placeholder="Nom de la nouvelle catégorie" required>
+                    <button type="submit">Ajouter une catégorie</button>
+                 </div>
+            </div>
+       </form>
+        <form id="edit-category-form" style="display: none;">
+             <input type="hidden" id="editCategoryId">
+             <div class="form-group">
+                  <label for="editCategoryName">Nom:</label>
+                  <input type="text" id="editCategoryName" required>
+             </div>
+
+            <button type="submit">Modifier</button>
+            <button type="button" id="cancel-edit-category">Annuler</button>
+        </form>
+         <section id="categories">
+           <h3>Catégories</h3>
+           <ul id="category-list"></ul>
+        </section>
+    </section>
+
+
+</main>
+<footer>
+    <p>© 2024 Votre Nom</p>
+</footer>
+<script src="script.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</body>
+</html>
