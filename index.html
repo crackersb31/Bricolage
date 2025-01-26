@@ -17,13 +17,13 @@
            </nav>
        </div>
    </header>
-   
+
    <main class="container">
        <div id="inventaire-image-container">
            <img src="images/outils.jpg" alt="">
        </div>
        <h2>Inventaire</h2>
-      
+       
        <section id="filters">
            <div class="filter-group">
                <h3>Filtrer par Lieu</h3>
@@ -33,7 +33,7 @@
                    <button class="filter-button" data-location="Beaucens">Beaucens</button>
                </div>
            </div>
-   
+
            <div class="filter-group">
                <h3>Filtrer par Catégorie</h3>
                <div class="button-filter-container" id="category-filter-container">
@@ -41,10 +41,24 @@
                </div>
            </div>
        </section>
-   
+
        <section id="inventaire">
            <h3>Liste du Matériel</h3>
            <ul id="item-list" class="item-list">
+               <li>
+                   <div>
+                       <span class="item-name"></span>
+                       <span class="item-category"></span>
+                       <span class="item-location"></span>
+                       <span class="item-quantity"></span>
+                       <div class="item-comment" data-comment=""></div>
+                   </div>
+                   <div class="button-container">
+                       <button class="edit-button"><i class="fas fa-edit"></i></button>
+                       <button class="delete-button"><i class="fas fa-trash-alt"></i></button>
+                       <button class="transfer-button">Transférer</button>
+                   </div>
+               </li>
            </ul>
        </section>
 
@@ -65,12 +79,13 @@
            </form>
        </section>
    </main>
-   
+
    <footer>
        <div class="container">
-           <p>© 2024 Votre Nom</p>
+           <p>© 2024 Th2T</p>
        </div>
    </footer>
+
    <script src="script.js"></script>
 </body>
 </html>

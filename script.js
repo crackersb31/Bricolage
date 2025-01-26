@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Initialisation des éléments DOM
     const addItemForm = document.getElementById('add-item-form');
     const itemList = document.getElementById('item-list');
     const categoryList = document.getElementById('category-list');
@@ -20,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const editCategoryIdInput = document.getElementById('editCategoryId');
     const cancelEditCategoryButton = document.getElementById('cancel-edit-category');
     const editItemCommentEdit = document.getElementById('editItemComment');
- 
     const locationFilterContainer = document.getElementById('location-filter-container');
     const categoryFilterContainer = document.getElementById('category-filter-container');
  
@@ -28,29 +28,17 @@ document.addEventListener('DOMContentLoaded', function () {
  
     let items = [];
     let categories = [];
- 
     let selectedLocation = '';
     let selectedCategory = '';
  
     async function fetchData() {
         try {
             const itemsResponse = await fetch(`${sheetDbUrl}?sheet=articles`);
-            items = await itemsResponse.json()
-                .catch(error => {
-                    console.error('Error parsing JSON:', error);
-                    return [];
-                });
- 
+            items = await itemsResponse.json();
             const categoriesResponse = await fetch(`${sheetDbUrl}?sheet=categories`);
-            categories = await categoriesResponse.json()
-                .catch(error => {
-                    console.error('Error parsing JSON:', error);
-                    return [];
-                });
- 
+            categories = await categoriesResponse.json();
             renderCategories();
             renderItems();
- 
         } catch (error) {
             console.error("Error loading data:", error);
         }
@@ -90,17 +78,14 @@ document.addEventListener('DOMContentLoaded', function () {
  
                 const deleteButton = document.createElement('button');
                 deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
-                deleteButton.addEventListener('click', () => {
-                    deleteCategory(category.id);
-                });
+                deleteButton.addEventListener('click', () => deleteCategory(category.id));
                 buttonContainer.appendChild(deleteButton);
  
                 const editButton = document.createElement('button');
                 editButton.innerHTML = '<i class="fas fa-edit"></i>';
-                editButton.addEventListener('click', () => {
-                    showEditCategoryForm(category.id);
-                });
+                editButton.addEventListener('click', () => showEditCategoryForm(category.id));
                 buttonContainer.appendChild(editButton);
+                
                 li.appendChild(buttonContainer);
                 categoryList.appendChild(li);
             }
@@ -120,82 +105,69 @@ document.addEventListener('DOMContentLoaded', function () {
     }
  
     function renderItems() {
-        if (itemList) {
-            itemList.innerHTML = '';
-            const filteredItems = items.filter(item => {
-                const locationMatch = selectedLocation === '' || item.location === selectedLocation;
-                const categoryMatch = selectedCategory === '' || item.category === selectedCategory;
-                return locationMatch && categoryMatch;
-            });
-            filteredItems.forEach(item => {
-                const li = document.createElement('li');
+        if (!itemList) return;
+        
+        itemList.innerHTML = '';
+        const filteredItems = items.filter(item => {
+            const locationMatch = !selectedLocation || item.location === selectedLocation;
+            const categoryMatch = !selectedCategory || item.category === selectedCategory;
+            return locationMatch && categoryMatch;
+        });
+        
+        filteredItems.forEach(item => {
+            const li = document.createElement('li');
+            const itemInfo = document.createElement('div');
+            
+            // Création de la div pour le commentaire avec l'attribut data-comment
+            const commentDiv = document.createElement('div');
+            commentDiv.setAttribute('data-comment', item.comment || '');
+            commentDiv.textContent = item.comment || '';
+            
+            itemInfo.innerHTML = `
+                <span class="item-name">${item.name}</span> 
+                (${item.category}) - ${item.location} - 
+                Quantité : ${item.quantity}`;
+            
+            itemInfo.appendChild(commentDiv);
+            li.appendChild(itemInfo);
  
-                const itemInfo = document.createElement('div');
-                const itemNameSpan = `<span class="item-name">${item.name}</span>`;
-                itemInfo.innerHTML = `${itemNameSpan} (${item.category}) - ${item.location} - Quantité : ${item.quantity} - Commentaire: ${item.comment || ''}`;
-                li.appendChild(itemInfo);
+            const buttonContainer = document.createElement('div');
+            buttonContainer.classList.add('button-container');
  
-                const buttonContainer = document.createElement('div');
-                buttonContainer.classList.add('button-container');
+            const deleteButton = document.createElement('button');
+            deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            deleteButton.addEventListener('click', () => deleteItem(item.id));
+            
+            const editButton = document.createElement('button');
+            editButton.innerHTML = '<i class="fas fa-edit"></i>';
+            editButton.addEventListener('click', () => showEditItemForm(item.id));
+            
+            const transferButton = document.createElement('button');
+            transferButton.textContent = item.transfer ? 'à transférer' : 'Transférer';
+            transferButton.classList.add('transfer-button');
+            if (item.transfer) transferButton.classList.add('transferred');
+            transferButton.addEventListener('click', () => toggleTransfer(item.id));
  
-                const deleteButton = document.createElement('button');
-                deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
-                deleteButton.addEventListener('click', () => {
-                    deleteItem(item.id);
-                });
-                buttonContainer.appendChild(deleteButton);
- 
-                const editButton = document.createElement('button');
-                editButton.innerHTML = '<i class="fas fa-edit"></i>';
-                editButton.addEventListener('click', () => {
-                    showEditItemForm(item.id);
-                });
-                buttonContainer.appendChild(editButton);
- 
-                const transferButton = document.createElement('button');
-                transferButton.textContent = item.transfer ? 'à transférer' : 'Transférer';
-                transferButton.classList.add('transfer-button');
-                if (item.transfer) {
-                    transferButton.classList.add('transferred');
-                }
-                transferButton.addEventListener('click', () => {
-                    toggleTransfer(item.id);
-                });
-                buttonContainer.appendChild(transferButton);
- 
-                li.appendChild(buttonContainer);
-                itemList.appendChild(li);
-            });
-        }
+            buttonContainer.append(deleteButton, editButton, transferButton);
+            li.appendChild(buttonContainer);
+            itemList.appendChild(li);
+        });
     }
  
     async function saveItems(item, isNew = false) {
         try {
-            if (isNew) {
-                const response = await fetch(sheetDbUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        "sheet": "articles",
-                        data: [item]
-                    })
-                });
-                return await response.json();
-            } else {
-                const response = await fetch(`${sheetDbUrl}/id/${item.id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        "sheet": "articles",
-                        data: [item]
-                    })
-                });
-                return await response.json();
-            }
+            const options = {
+                method: isNew ? 'POST' : 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    "sheet": "articles",
+                    data: [item]
+                })
+            };
+            
+            const url = isNew ? sheetDbUrl : `${sheetDbUrl}/id/${item.id}`;
+            const response = await fetch(url, options);
+            return await response.json();
         } catch (error) {
             console.error('Error saving items:', error);
         }
@@ -205,16 +177,13 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await fetch(sheetDbUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     "sheet": "categories",
                     data: [newData]
                 })
             });
-            const data = await response.json();
-            console.log('saveCategories response', data);
+            return await response.json();
         } catch (error) {
             console.error('Error saving categories:', error);
         }
@@ -238,19 +207,13 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await fetch(`${sheetDbUrl}/id/${itemId}`, {
                 method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                headers: {'Content-Type': 'application/json'}
             });
- 
-            if (!response.ok) {
-                throw new Error('Erreur lors de la suppression de l\'article dans SheetDB');
-            }
- 
+            if (!response.ok) throw new Error('Erreur lors de la suppression');
             items = items.filter(item => item.id !== itemId);
             renderItems();
         } catch (error) {
-            console.error('Erreur lors de la suppression de l\'article:', error);
+            console.error('Erreur:', error);
         }
     }
  
@@ -277,61 +240,33 @@ document.addEventListener('DOMContentLoaded', function () {
     }
  
     async function toggleTransfer(itemId) {
-        items = items.map(item => {
-            if (item.id === itemId) {
-                item.transfer = !item.transfer;
-            }
-            return item;
-        });
- 
-        const updatedItem = items.find(item => item.id === itemId);
- 
-        if (updatedItem) {
-            await saveItems(updatedItem);
+        const item = items.find(item => item.id === itemId);
+        if (item) {
+            item.transfer = !item.transfer;
+            await saveItems(item);
+            renderItems();
         }
- 
-        renderItems();
     }
  
+    // Event Listeners pour le formulaire d'ajout de catégorie
     if (addCategoryButton) {
-        addCategoryButton.addEventListener('click', function () {
+        addCategoryButton.addEventListener('click', () => {
             newCategoryNameInput.style.display = 'inline-block';
-        });
-        addCategoryButton.textContent = "Ajouter une catégorie";
-    }
- 
-    const addCategoryForm = document.getElementById('add-category-form');
-    if (addCategoryForm) {
-        addCategoryForm.addEventListener('submit', async function (event) {
-            event.preventDefault();
-            const categoryName = document.getElementById('categoryName').value;
-            const newCategory = {
-                id: generateId(),
-                name: categoryName,
-            };
-            categories.push(newCategory);
-            await saveCategories(newCategory);
-            renderCategories();
-            addCategoryForm.reset();
+            addCategoryButton.textContent = "Ajouter une catégorie";
         });
     }
  
+    // Event Listener pour le formulaire d'ajout d'article
     if (addItemForm) {
-        addItemForm.addEventListener('submit', async function (event) {
+        addItemForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const itemName = document.getElementById('itemName').value;
-            let itemCategory = document.getElementById('itemCategory').value;
-            const itemLocation = document.getElementById('itemLocation').value;
-            const itemQuantity = document.getElementById('itemQuantity').value;
-            const itemComment = document.getElementById('itemComment').value;
- 
             const newItem = {
                 id: generateId(),
-                name: itemName,
-                category: itemCategory,
-                location: itemLocation,
-                quantity: parseInt(itemQuantity),
-                comment: itemComment,
+                name: document.getElementById('itemName').value,
+                category: document.getElementById('itemCategory').value,
+                location: document.getElementById('itemLocation').value,
+                quantity: parseInt(document.getElementById('itemQuantity').value),
+                comment: document.getElementById('itemComment').value,
                 transfer: false
             };
             items.push(newItem);
@@ -340,31 +275,39 @@ document.addEventListener('DOMContentLoaded', function () {
             addItemForm.reset();
             addItemForm.querySelector('button[type="submit"]').textContent = "Ajouter l'article";
         });
-        addItemForm.querySelector('button[type="submit"]').textContent = "Ajouter l'article";
     }
  
+    const addCategoryForm = document.getElementById('add-category-form');
+    if (addCategoryForm) {
+        addCategoryForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const newCategory = {
+                id: generateId(),
+                name: document.getElementById('categoryName').value,
+            };
+            categories.push(newCategory);
+            await saveCategories(newCategory);
+            renderCategories();
+            addCategoryForm.reset();
+        });
+    }
+ 
+    // Event listener pour le formulaire de modification d'article
     if (editItemForm) {
-        editItemForm.addEventListener('submit', async function (event) {
+        editItemForm.addEventListener('submit', async (event) => {
             event.preventDefault();
             const itemId = editItemIdInput.value;
-            const itemName = editItemNameInput.value;
-            const itemCategory = editItemCategorySelect.value;
-            const itemLocation = editItemLocationSelect.value;
-            const itemQuantity = parseInt(editItemQuantityInput.value);
-            const itemComment = document.getElementById('editItemComment').value;
- 
             const itemIndex = items.findIndex(item => item.id === itemId);
- 
+            
             if (itemIndex !== -1) {
                 items[itemIndex] = {
                     ...items[itemIndex],
-                    name: itemName,
-                    category: itemCategory,
-                    location: itemLocation,
-                    quantity: itemQuantity,
-                    comment: itemComment
+                    name: editItemNameInput.value,
+                    category: editItemCategorySelect.value,
+                    location: editItemLocationSelect.value,
+                    quantity: parseInt(editItemQuantityInput.value),
+                    comment: editItemCommentEdit.value
                 };
- 
                 await saveItems(items[itemIndex]);
                 renderItems();
                 editItemSection.style.display = 'none';
@@ -372,32 +315,22 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
  
-    if (cancelEditItemButton) {
-        cancelEditItemButton.addEventListener('click', function () {
-            editItemSection.style.display = 'none';
-        });
-    }
- 
+    // Event listener pour le formulaire de modification de catégorie
     if (editCategoryForm) {
-        editCategoryForm.addEventListener('submit', async function (event) {
+        editCategoryForm.addEventListener('submit', async (event) => {
             event.preventDefault();
             const categoryId = editCategoryIdInput.value;
-            const categoryName = editCategoryNameInput.value;
- 
+            const newName = editCategoryNameInput.value;
             const oldCategory = categories.find(cat => cat.id === categoryId);
-            categories = categories.map(category => {
-                if (category.id === categoryId) {
-                    category.name = categoryName;
-                }
-                return category;
-            });
- 
-            items = items.map(item => {
-                if (item.category === oldCategory.name) {
-                    item.category = categoryName;
-                }
-                return item;
-            });
+            
+            categories = categories.map(cat => 
+                cat.id === categoryId ? {...cat, name: newName} : cat
+            );
+            
+            items = items.map(item => 
+                item.category === oldCategory.name ? {...item, category: newName} : item
+            );
+            
             await saveCategories();
             await saveItems();
             renderCategories();
@@ -406,17 +339,26 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
  
+    // Event Listeners pour les boutons d'annulation
+    if (cancelEditItemButton) {
+        cancelEditItemButton.addEventListener('click', () => {
+            editItemSection.style.display = 'none';
+        });
+    }
+ 
     if (cancelEditCategoryButton) {
-        cancelEditCategoryButton.addEventListener('click', function () {
+        cancelEditCategoryButton.addEventListener('click', () => {
             editCategorySection.style.display = 'none';
         });
     }
  
+    // Event Listeners pour les filtres
     if (locationFilterContainer) {
         locationFilterContainer.addEventListener('click', (event) => {
             if (event.target.classList.contains('filter-button')) {
                 selectedLocation = event.target.dataset.location;
-                locationFilterContainer.querySelectorAll('.filter-button').forEach(button => button.classList.remove('active'));
+                locationFilterContainer.querySelectorAll('.filter-button')
+                    .forEach(button => button.classList.remove('active'));
                 event.target.classList.add('active');
                 renderItems();
             }
@@ -427,12 +369,14 @@ document.addEventListener('DOMContentLoaded', function () {
         categoryFilterContainer.addEventListener('click', (event) => {
             if (event.target.classList.contains('filter-button')) {
                 selectedCategory = event.target.dataset.category;
-                categoryFilterContainer.querySelectorAll('.filter-button').forEach(button => button.classList.remove('active'));
+                categoryFilterContainer.querySelectorAll('.filter-button')
+                    .forEach(button => button.classList.remove('active'));
                 event.target.classList.add('active');
                 renderItems();
             }
         });
     }
  
+    // Chargement initial des données
     fetchData();
  });

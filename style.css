@@ -1,15 +1,14 @@
-/* style.css */
-
+```css
 body {
   font-family: sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0; /* Couleur de fond */
-  color: #333; /* Couleur du texte */
+  background-color: #f0f0f0;
+  color: #333;
 }
 
 header {
-  background-color: #3498db; /* Couleur principale */
+  background-color: #3498db;
   color: #fff;
   padding: 1rem 0;
   text-align: center;
@@ -44,75 +43,73 @@ footer {
   padding: 1rem;
   margin-bottom: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
-  max-width: 800px; /* Largeur maximale */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
 }
-#add-image-container{
+
+#add-image-container {
   background-image: url('ajout.jpg');
-   background-size: contain;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   max-height: 150px;
   margin-bottom: 1rem;
   max-width: 600px;
   height: 200px;
-    margin-left: auto;
-      margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
-#inventaire-image-container{
+
+#inventaire-image-container {
   background-image: url('inventaire.jpg');
-    background-size: contain;
+  background-size: contain;
   background-repeat: no-repeat;
-    background-position: center;
+  background-position: center;
   max-height: 150px;
   margin-bottom: 1rem;
   max-width: 600px;
-   height: 200px;
+  height: 200px;
   margin-left: auto;
-    margin-right: auto;
+  margin-right: auto;
 }
-
 
 #add-item-section {
   padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Ombre légère */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
-
-
 
 #ajouter h3 {
   margin-top: 0;
 }
 
-#add-item-form label, #edit-item-form label, #edit-category-form label{
+#add-item-form label, #edit-item-form label, #edit-category-form label {
   display: block;
   margin-bottom: 0.2rem;
   font-weight: bold;
 }
 
-.form-group-inline{
+.form-group-inline {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1rem; /* Augmenter l'espace vertical */
+  margin-bottom: 1rem;
   align-items: flex-end;
 }
 
 .form-group-inline-category {
   display: flex;
   gap: 0.5rem;
-   margin-bottom: 1rem; /* Augmenter l'espace vertical */
-   align-items: center;
+  margin-bottom: 1rem;
+  align-items: center;
 }
 
 .form-group {
-  margin-bottom: 1rem; /* Augmenter l'espace vertical */
-    flex: 1;
+  margin-bottom: 1rem;
+  flex: 1;
 }
-
 
 #add-item-form input[type="text"],
 #add-item-form input[type="number"],
@@ -123,17 +120,16 @@ footer {
 #edit-item-form input[type="number"],
 #edit-item-form select,
 #edit-item-form textarea,
-#edit-category-form input[type="text"]{
+#edit-category-form input[type="text"] {
   width: calc(100% - 12px);
-  padding: 0.4rem; /* Ajout de padding */
+  padding: 0.4rem;
   margin-bottom: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 4px;
-   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-   transition: border-color 0.3s;
-     font-size: 0.9rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s;
+  font-size: 0.9rem;
 }
-
 
 #add-item-form input[type="text"]:focus,
 #add-item-form input[type="number"]:focus,
@@ -144,38 +140,37 @@ footer {
 #edit-item-form input[type="number"]:focus,
 #edit-item-form select:focus,
 #edit-item-form textarea:focus,
-#edit-category-form input[type="text"]:focus{
-      border-color: #3498db;
+#edit-category-form input[type="text"]:focus {
+  border-color: #3498db;
   outline: none;
-   box-shadow: 0 1px 3px rgba(52, 152, 219, 0.3);
+  box-shadow: 0 1px 3px rgba(52, 152, 219, 0.3);
 }
 
 #add-item-form button,
 #add-category-form button,
 #edit-item-form button,
-#edit-category-form button{
-  background-color: #4fa6df; /* Couleur principale légèrement plus claire */
+#edit-category-form button {
+  background-color: #4fa6df;
   color: #fff;
   border: none;
-  border-radius: 4px; /* Arrondi des bords */
-  padding: 0.65rem 1rem; /* Réduire le padding */
-   margin-top: 1rem;
+  border-radius: 4px;
+  padding: 0.65rem 1rem;
+  margin-top: 1rem;
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
-
 
 #add-item-form button:hover,
 #add-category-form button:hover,
 #edit-item-form button:hover,
-#edit-category-form button:hover{
-  background-color: #2980b9; /* Assombrissement au survol */
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+#edit-category-form button:hover {
+  background-color: #2980b9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#inventaire{
+#inventaire {
   background-color: #fff;
   padding: 1rem;
   border-radius: 8px;
@@ -183,12 +178,12 @@ footer {
   margin-bottom: 2rem;
 }
 
-#inventaire ul{
+#inventaire ul {
   list-style-type: none;
   padding-left: 0;
 }
 
-#inventaire li{
+#inventaire li {
   background-color: #f9f9f9;
   padding: 0.75rem;
   margin-bottom: 0.5rem;
@@ -200,6 +195,23 @@ footer {
 
 #inventaire li > div {
   flex-grow: 1;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.item-comment {
+  min-height: 30px;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+  padding: 5px;
+}
+
+#inventaire li div[data-comment="A Acheter"] {
+  background-color: red;
+  color: white;
 }
 
 #inventaire li .button-container {
@@ -214,13 +226,15 @@ footer {
   font-size: 0.8rem;
   border-radius: 4px;
 }
+
 #inventaire li button i.fa-trash-alt {
-  color: #e74c3c; /* rouge */
+  color: #e74c3c;
 }
 
 #inventaire li button i.fa-edit {
-  color: #3498db; /* bleu */
+  color: #3498db;
 }
+
 #categories {
   background-color: #fff;
   padding: 1rem;
@@ -261,15 +275,14 @@ footer {
 }
 
 #categories li button:hover {
-  background-color: #e74c3c; /* Couleur d'accentuation (rouge) */
+  background-color: #e74c3c;
   color: #fff;
 }
 
-/* Style pour les icônes des boutons */
 #inventaire li button i,
 #categories li button i {
   margin: 0;
-  font-size: 0.8rem; /* Ajustez la taille de l'icône selon vos préférences */
+  font-size: 0.8rem;
 }
 
 #edit-item {
@@ -278,7 +291,7 @@ footer {
   margin-bottom: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-   max-width: 800px; /* Largeur maximale */
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -287,14 +300,13 @@ footer {
   margin-top: 0;
 }
 
-
 #edit-category {
   background-color: #fff;
   padding: 1rem;
   margin-bottom: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 800px; /* Largeur maximale */
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -303,7 +315,6 @@ footer {
   margin-top: 0;
 }
 
-/* Style de base pour le bouton "Transférer" */
 .transfer-button {
   background-color: #fff;
   color: #333;
@@ -317,14 +328,13 @@ footer {
 }
 
 .transfer-button:hover {
-  background-color: #2ecc71; /* Couleur secondaire (vert) */
+  background-color: #2ecc71;
   color: #fff;
   border-color: #2ecc71;
 }
 
-/* Style pour le bouton "Transférer" lorsqu'il est activé */
 .transfer-button.transferred {
-  background-color: #2ecc71; /* Couleur secondaire (vert) */
+  background-color: #2ecc71;
   color: #fff;
   border: none;
 }
@@ -333,8 +343,6 @@ footer {
   background-color: #27ae60;
 }
 
-
-/* Styles pour les filtres */
 #filters {
   display: flex;
   justify-content: space-between;
@@ -359,50 +367,47 @@ footer {
   font-size: 1.1rem;
 }
 
-
-/* Styles pour les boutons de filtre */
 .button-filter-container {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
-
 .filter-button {
- background-color: #f0f0f0; /* Couleur plus claire */
+  background-color: #f0f0f0;
   color: #333;
   border: 1px solid #ddd;
   border-radius: 4px;
-  padding: 0.4rem 0.75rem; /* Réduire le padding */
+  padding: 0.4rem 0.75rem;
   cursor: pointer;
   font-size: 0.9rem;
-  box-shadow: none; /* Supprimer l'ombre */
+  box-shadow: none;
 }
 
 .filter-button:hover {
-  background-color: #e0e0e0; /* Légèrement plus foncé au survol */
+  background-color: #e0e0e0;
 }
-
 
 .filter-button.active {
   background-color: #3498db;
   color: #fff;
-   border-color: #3498db;
+  border-color: #3498db;
 }
 
-/* Style pour le lien actif */
 nav a.active-link {
-color: #e74c3c; /* Couleur rouge */
+  color: #e74c3c;
 }
 
 .item-name {
   font-weight: bold;
-  color: orange; /* Couleur orange */
+  color: orange;
 }
-#edit-category-form  button i{
+
+#edit-category-form button i {
   color: #e74c3c;
 }
 
- #categories li button.edit-button i{
-    color: orange;
+#categories li button.edit-button i {
+  color: orange;
 }
+```
