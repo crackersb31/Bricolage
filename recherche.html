@@ -1,39 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Recherche d'Articles</title>
-   <link rel="stylesheet" href="recherche.css">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche d'Articles</title>
+    <link rel="stylesheet" href="recherche.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-   <header>
-       <div class="container">
-           <h1>Recherche d'Articles</h1>
-           <nav>
-               <a href="index.html">Inventaire</a>
-               <a href="ajouter.html">Ajouter un article</a>
-               <a href="recherche.html" class="active-link"><i class="fas fa-search"></i></a>
-           </nav>
-       </div>
-   </header>
+    <header>
+        <div class="container">
+            <h1>Recherche d'Articles</h1>
+            <nav>
+                <a href="index.html">Inventaire</a>
+                <a href="ajouter.html">Ajouter un article</a>
+                <a href="recherche.html" class="active-link"><i class="fas fa-search"></i></a>
+            </nav>
+        </div>
+    </header>
 
-   <main class="container">
-       <section id="recherche">
-           <div class="search-container">
-               <input type="text" id="search-input" placeholder="Nom de l'article...">
-           </div>
-           <div id="search-results"></div>
-       </section>
-   </main>
+    <main class="container">
+        <div id="search-image-container">
+            <img src="images/recherche.jpg" alt="">
+        </div>
+        <section id="recherche">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Nom de l'article...">
+            </div>
+            <div id="search-results"></div>
+        </section>
+    </main>
 
-   <footer>
-       <div class="container">
-           <p>© 2025 Th2T</p>
-       </div>
-   </footer>
+    <footer>
+        <div class="container">
+            <p>© 2024 Votre Nom</p>
+        </div>
+    </footer>
 
-   <script src="recherche.js"></script>
+    <script src="recherche.js"></script>
 </body>
 </html>

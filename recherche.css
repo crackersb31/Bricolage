@@ -37,6 +37,19 @@ body {
     width: 100%;
   }
   
+  #search-image-container {
+    background-image: url('recherche.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    max-height: 150px;
+    margin-bottom: 1rem;
+    max-width: 600px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
   #recherche {
     background-color: #fff;
     padding: 2rem;
