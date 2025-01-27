@@ -1,3 +1,50 @@
+/* Styles du header */
+header {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title {
+    text-decoration: none;
+    color: inherit;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+}
+
+nav a:hover {
+    color: #007bff;
+}
+
+nav a.active-link {
+    color: #007bff;
+}
+
+/* Styles existants */
 .container {
     max-width: 800px;
     margin: 20px auto;
