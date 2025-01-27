@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Photos</title>
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="photos.css">
+</head>
+<body>
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Rechercher un article...">
+        </div>
+
+        <div id="articles-list" class="articles-list">
+            <!-- Les articles seront affichés ici -->
+        </div>
+
+        <div class="selected-article" id="selected-article">
+            <!-- L'article sélectionné sera affiché ici -->
+        </div>
+
+        <button id="upload-photo" class="upload-button" style="display: none;">
+            Ajouter/Modifier la photo
+        </button>
+    </div>
+
+    <script src="photos.js"></script>
+</body>
+</html>
