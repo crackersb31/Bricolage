@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const locationFilterContainer = document.getElementById('location-filter-container');
     const categoryFilterContainer = document.getElementById('category-filter-container');
  
-    const sheetDbUrl = 'https://sheetdb.io/api/v1/1k257tbetudz2';
+    const steinUrl = 'https://api.steinhq.com/v1/storages/679756d5c0883333656cba15';
  
     let items = [];
     let categories = [];
@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
  
     async function fetchData() {
         try {
-            const itemsResponse = await fetch(`${sheetDbUrl}?sheet=articles`);
+            const itemsResponse = await fetch(`${steinUrl}/articles`);
             items = await itemsResponse.json();
-            const categoriesResponse = await fetch(`${sheetDbUrl}?sheet=categories`);
+            const categoriesResponse = await fetch(`${steinUrl}/categories`);
             categories = await categoriesResponse.json();
             renderCategories();
             renderItems();
@@ -118,7 +118,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const li = document.createElement('li');
             const itemInfo = document.createElement('div');
             
-            // Création de la div pour le commentaire avec l'attribut data-comment
             const commentDiv = document.createElement('div');
             commentDiv.setAttribute('data-comment', item.comment || '');
             commentDiv.textContent = item.comment || '';
@@ -159,29 +158,25 @@ document.addEventListener('DOMContentLoaded', function () {
             const options = {
                 method: isNew ? 'POST' : 'PUT',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    "sheet": "articles",
-                    data: [item]
+                body: JSON.stringify(isNew ? [item] : {
+                    condition: { id: item.id },
+                    set: item
                 })
             };
             
-            const url = isNew ? sheetDbUrl : `${sheetDbUrl}/id/${item.id}`;
-            const response = await fetch(url, options);
+            const response = await fetch(`${steinUrl}/articles`, options);
             return await response.json();
         } catch (error) {
             console.error('Error saving items:', error);
         }
     }
  
-    async function saveCategories(newData) {
+    async function saveCategories(category) {
         try {
-            const response = await fetch(sheetDbUrl, {
+            const response = await fetch(`${steinUrl}/categories`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    "sheet": "categories",
-                    data: [newData]
-                })
+                body: JSON.stringify([category])
             });
             return await response.json();
         } catch (error) {
@@ -194,20 +189,46 @@ document.addEventListener('DOMContentLoaded', function () {
     }
  
     async function deleteCategory(categoryId) {
-        const category = categories.find(cat => cat.id === categoryId);
-        items = items.filter(item => item.category !== category.name);
-        categories = categories.filter(cat => cat.id !== categoryId);
-        await saveCategories();
-        await saveItems();
-        renderCategories();
-        renderItems();
+        try {
+            const category = categories.find(cat => cat.id === categoryId);
+            // Supprimer la catégorie
+            await fetch(`${steinUrl}/categories`, {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    condition: { id: categoryId }
+                })
+            });
+            
+            // Mettre à jour les items associés
+            const itemsToUpdate = items.filter(item => item.category === category.name);
+            for (const item of itemsToUpdate) {
+                await fetch(`${steinUrl}/articles`, {
+                    method: 'DELETE',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        condition: { id: item.id }
+                    })
+                });
+            }
+            
+            items = items.filter(item => item.category !== category.name);
+            categories = categories.filter(cat => cat.id !== categoryId);
+            renderCategories();
+            renderItems();
+        } catch (error) {
+            console.error('Error deleting category:', error);
+        }
     }
  
     async function deleteItem(itemId) {
         try {
-            const response = await fetch(`${sheetDbUrl}/id/${itemId}`, {
+            const response = await fetch(`${steinUrl}/articles`, {
                 method: 'DELETE',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    condition: { id: itemId }
+                })
             });
             if (!response.ok) throw new Error('Erreur lors de la suppression');
             items = items.filter(item => item.id !== itemId);
@@ -248,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
  
-    // Event Listeners pour le formulaire d'ajout de catégorie
+    // Event Listeners
     if (addCategoryButton) {
         addCategoryButton.addEventListener('click', () => {
             newCategoryNameInput.style.display = 'inline-block';
@@ -256,7 +277,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
  
-    // Event Listener pour le formulaire d'ajout d'article
     if (addItemForm) {
         addItemForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -292,7 +312,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
  
-    // Event listener pour le formulaire de modification d'article
     if (editItemForm) {
         editItemForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -315,7 +334,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
  
-    // Event listener pour le formulaire de modification de catégorie
     if (editCategoryForm) {
         editCategoryForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -323,23 +341,33 @@ document.addEventListener('DOMContentLoaded', function () {
             const newName = editCategoryNameInput.value;
             const oldCategory = categories.find(cat => cat.id === categoryId);
             
+            // Mettre à jour la catégorie
+            await fetch(`${steinUrl}/categories`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    condition: { id: categoryId },
+                    set: { name: newName }
+                })
+            });
+            
+            // Mettre à jour tous les articles associés
+            const itemsToUpdate = items.filter(item => item.category === oldCategory.name);
+            for (const item of itemsToUpdate) {
+                item.category = newName;
+                await saveItems(item);
+            }
+            
             categories = categories.map(cat => 
                 cat.id === categoryId ? {...cat, name: newName} : cat
             );
             
-            items = items.map(item => 
-                item.category === oldCategory.name ? {...item, category: newName} : item
-            );
-            
-            await saveCategories();
-            await saveItems();
             renderCategories();
             renderItems();
             editCategorySection.style.display = 'none';
         });
     }
  
-    // Event Listeners pour les boutons d'annulation
     if (cancelEditItemButton) {
         cancelEditItemButton.addEventListener('click', () => {
             editItemSection.style.display = 'none';
@@ -352,7 +380,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
  
-    // Event Listeners pour les filtres
     if (locationFilterContainer) {
         locationFilterContainer.addEventListener('click', (event) => {
             if (event.target.classList.contains('filter-button')) {
@@ -379,4 +406,4 @@ document.addEventListener('DOMContentLoaded', function () {
  
     // Chargement initial des données
     fetchData();
- });
+});
