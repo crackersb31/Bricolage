@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('search-input');
     const searchResults = document.getElementById('search-results');
-    const sheetDbUrl = 'https://sheetdb.io/api/v1/1k257tbetudz2';
+    const steinUrl = 'https://api.steinhq.com/v1/storages/679756d5c0883333656cba15';
     let items = [];
 
     async function fetchItems() {
         try {
-            const response = await fetch(`${sheetDbUrl}?sheet=articles`);
+            const response = await fetch(`${steinUrl}/articles`);
             items = await response.json();
         } catch (error) {
             console.error("Erreur:", error);
@@ -50,5 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     searchInput.addEventListener('input', (e) => search(e.target.value));
+    
+    // Chargement initial des données
     fetchItems();
 });
