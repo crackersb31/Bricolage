@@ -8,6 +8,19 @@
     <link rel="stylesheet" href="photos.css">
 </head>
 <body>
+
+<header>
+        <div class="container">
+            <h1>Recherche d'Articles</h1>
+            <nav>
+            <a href="index.html" class="active-link">Inventaire</a>
+            <a href="ajouter.html">Ajouter un article</a>
+            <a href="recherche.html"><i class="fas fa-search"></i></a>
+            <a href="photos.html"><i class="fas fa-camera"></i></a>
+            </nav>
+        </div>
+    </header>
+
     <div class="container">
         <div class="search-box">
             <input type="text" id="search-input" placeholder="Rechercher un article...">
