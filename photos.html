@@ -10,36 +10,34 @@
 </head>
 <body>
     <header>
-        <div class="container">
-            <a href="index.html" class="header-title">
-                <h1>Gestion du Matériel de Bricolage</h1>
-            </a>
-            <nav>
-                <a href="index.html">Inventaire</a>
-                <a href="ajouter.html">Ajouter un article</a>
-                <a href="recherche.html"><i class="fas fa-search"></i></a>
-                <a href="photos.html" class="active-link"><i class="fas fa-camera"></i></a>
-            </nav>
-        </div>
+        <h1>Gestion du Matériel de Bricolage</h1>
+        <nav>
+            <a href="index.html">Inventaire</a>
+            <a href="ajouter.html">Ajouter un article</a>
+            <a href="recherche.html"><i class="fas fa-search"></i></a>
+            <a href="photos.html" class="active-link"><i class="fas fa-camera"></i></a>
+        </nav>
     </header>
 
-    <div class="container">
-        <div class="search-box">
-            <input type="text" id="search-input" placeholder="Rechercher un article...">
-        </div>
+    <main>
+        <div class="container">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Rechercher un article...">
+            </div>
 
-        <div id="articles-list" class="articles-list">
-            <!-- Les articles seront affichés ici -->
-        </div>
+            <div id="articles-list" class="articles-list">
+                <!-- Les articles seront affichés ici -->
+            </div>
 
-        <div class="selected-article" id="selected-article">
-            <!-- L'article sélectionné sera affiché ici -->
-        </div>
+            <div class="selected-article" id="selected-article">
+                <!-- L'article sélectionné sera affiché ici -->
+            </div>
 
-        <button id="upload-photo" class="upload-button" style="display: none;">
-            Ajouter/Modifier la photo
-        </button>
-    </div>
+            <button id="upload-photo" class="upload-button" style="display: none;">
+                Ajouter/Modifier la photo
+            </button>
+        </div>
+    </main>
     
     <script src="photos.js"></script>
 </body>
